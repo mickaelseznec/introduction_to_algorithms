@@ -1,9 +1,9 @@
 CC = gcc
 CWARN = all extra error
 INCLUDES = $(abspath unity) $(abspath utils)
-CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES))
+CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu99
 
-CHAPTER_NUMBERS = 2
+CHAPTER_NUMBERS = 2 4
 CHAPTERS = $(addprefix chapter_, $(CHAPTER_NUMBERS))
 CLEAN_CHAPTERS = $(addprefix clean_, $(CHAPTERS))
 
