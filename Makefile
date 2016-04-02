@@ -1,7 +1,8 @@
 CC = gcc
 CWARN = all extra error
 INCLUDES = $(abspath unity) $(abspath utils)
-CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu99
+LDLIBS = -lbsd
+CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu11
 
 CHAPTER_NUMBERS = 2 4
 CHAPTERS = $(addprefix chapter_, $(CHAPTER_NUMBERS))
@@ -18,6 +19,7 @@ DEPS = $(UNITY_OBJ) $(UTILS_OBJ)
 export CC
 export CFLAGS
 export DEPS
+export LDLIBS
 
 .PHONY: all clean $(UNITY_DIR) $(CHAPTERS) $(CLEAN_CHAPTERS) chapter_2
 

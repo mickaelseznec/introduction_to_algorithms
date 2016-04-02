@@ -5,6 +5,59 @@
 #include "chapter_4.h"
 #include "utils.h"
 
+static void make_heap(int *arr, size_t len) {
+    for (size_t i = 1; i < len; i++) {
+        for (int j = i; j > 0 && arr[j] > arr[(j - 1) / 2]; j = (j - 1) /2) {
+            swap(arr, j, (j - 1) / 2);
+        }
+    }
+}
+
+int *heap_sort(int *arr, size_t len) {
+    int *heap = (int *) malloc(len * sizeof(int));
+    int *new_arr = (int *) malloc(len * sizeof(int));
+    memcpy(heap, arr, len * sizeof(int));
+    make_heap(heap, len);
+    for (size_t i = 0; i < len; i++) {
+        new_arr[len - 1 - i] = heap[0];
+        heap[0] = INT_MIN;
+
+        size_t j = 0;
+        while(2 * j + 1 < len) {
+            if (2 * j + 2 == len) {
+                swap(heap, j, 2 * j + 1);
+                j = 2 * j + 1;
+            } else {
+                if (heap[2 * j + 1] > heap[2 * j + 2]) {
+                    swap(heap, j, 2 * j + 1);
+                    j = 2 * j + 1;
+                } else {
+                    swap(heap, j, 2 * j + 2);
+                    j = 2 * j + 2;
+                }
+            }
+        }
+    }
+    free(heap);
+    return new_arr;
+}
+
+
+void matrix_multiply_naive(size_t matrix_size,
+        int matrix_c[matrix_size][matrix_size],
+        int matrix_a[matrix_size][matrix_size],
+        int matrix_b[matrix_size][matrix_size]) {
+    for (size_t i = 0; i < matrix_size; i++) {
+        for (size_t j = 0; j < matrix_size; j++) {
+            int cij = 0;
+            for (size_t k = 0; k < matrix_size; k++) {
+                cij += matrix_a[i][k] * matrix_b[k][j];
+            }
+            matrix_c[i][j] = cij;
+        }
+    }
+}
+
 static struct subarray_res middle_subarray(int *array, size_t len) {
     int *sums = (int *) malloc(len * sizeof(int));
     struct subarray_res res;

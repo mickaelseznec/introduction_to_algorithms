@@ -10,5 +10,10 @@ struct subarray_res {
 };
 
 struct subarray_res max_subarray(int *array, size_t len);
+void matrix_multiply_naive(size_t matrix_size,
+        int matrix_c[matrix_size][matrix_size],
+        int matrix_a[matrix_size][matrix_size],
+        int matrix_b[matrix_size][matrix_size]);
+int *heap_sort(int *arr, size_t len);
 
 #endif
