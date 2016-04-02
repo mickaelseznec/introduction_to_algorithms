@@ -15,5 +15,6 @@ void matrix_multiply_naive(size_t matrix_size,
         int matrix_a[matrix_size][matrix_size],
         int matrix_b[matrix_size][matrix_size]);
 int *heap_sort(int *arr, size_t len);
+int *quick_sort(int *arr, size_t len);
 
 #endif
