@@ -17,5 +17,6 @@ void matrix_multiply_naive(size_t matrix_size,
 int *heap_sort(int *arr, size_t len);
 int *quick_sort(int *arr, size_t len);
 int *counting_sort(int *arr, size_t len);
+float *bucket_sort(float *arr, size_t len);
 
 #endif

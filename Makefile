@@ -2,7 +2,7 @@ CC = gcc
 CWARN = all extra error
 INCLUDES = $(abspath unity) $(abspath utils)
 LDLIBS = -lbsd
-CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu11
+CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu11 -g
 
 CHAPTER_NUMBERS = 2 4
 CHAPTERS = $(addprefix chapter_, $(CHAPTER_NUMBERS))

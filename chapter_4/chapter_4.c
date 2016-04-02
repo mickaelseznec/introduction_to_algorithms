@@ -5,6 +5,96 @@
 #include "chapter_4.h"
 #include "utils.h"
 
+struct fll {
+    struct fll *prev;
+    float val;
+    struct fll *next;
+};
+
+static void fll_clean(struct fll *ll) {
+    struct fll *next;
+    do {
+        next = ll->next;
+        free(ll);
+        ll = next;
+    } while(next != NULL);
+}
+
+static void fll_push(struct fll *ll, float val) {
+    struct fll *pushed = (struct fll *) malloc(sizeof(struct fll));
+    while (ll->next != NULL) {
+        ll = ll->next;
+    }
+    ll->next = pushed;
+    *pushed = (struct fll) {ll, val, NULL};
+}
+
+static void fll_remove(struct fll *ll) {
+    if (ll->prev != NULL)
+        ll->prev->next = ll->next;
+    if (ll->next != NULL)
+        ll->next->prev = ll->prev;
+}
+
+static void fll_prepend(struct fll *from, struct fll *new_ll) {
+    if (from->prev != NULL)
+        from->prev->next = new_ll;
+    from->prev = new_ll;
+    new_ll->next = from;
+    new_ll->prev = from->prev;
+}
+
+float *bucket_sort(float *arr, size_t len) {
+    struct fll **bucket =
+        (struct fll **) calloc(len, sizeof(struct fll *));
+
+    /* Put numbers in the right sub-bucket*/
+    for (size_t i = 0; i < len; i++) {
+        int index = (int) (arr[i] * len);
+        if (bucket[index] != NULL) {
+            fll_push(bucket[index], arr[i]);
+        } else {
+            bucket[index] = (struct fll *) malloc(sizeof(struct fll));
+            *bucket[index] = (struct fll) {NULL, arr[i], NULL};
+        }
+    }
+
+    /* Sort sub-buckets*/
+    for (size_t i = 0; i < len; i++) {
+        if (bucket[i] == NULL)
+            continue;
+        struct fll *ll = bucket[i];
+        while (ll->next != NULL) {
+            if (ll->val < ll->next->val) {
+                ll = ll->next;
+            } else {
+                struct fll *misplaced = ll->next;
+                fll_remove(ll->next);
+                struct fll *lli;
+                for (lli = bucket[i]; lli->val < misplaced->val; lli = lli->next) ;
+                fll_prepend(lli, misplaced);
+                if (lli == bucket[i])
+                    bucket[i] = misplaced;
+            }
+        }
+    }
+
+    /* Concatenate ordered sub-buckets*/
+    float *res = (float *) malloc(len * sizeof(float));
+    for (size_t i = 0, j = 0; i < len; i++) {
+        for (struct fll *ll = bucket[i]; ll != NULL; ll = ll->next) {
+            res[j++] = ll->val;
+        }
+    }
+
+    for (size_t i = 0; i < len; i++) {
+        if (bucket[i] != NULL)
+            fll_clean(bucket[i]);
+    }
+    free(bucket);
+    return res;
+}
+
 static void find_minmax(int *arr, size_t len, int *min, int *max) {
     size_t i;
     if (len < 1)
@@ -164,6 +254,7 @@ static struct subarray_res middle_subarray(int *array, size_t len) {
         }
     }
     res.sum = high_max + low_max - res.sum;
+    free(sums);
     return res;
 }
 
