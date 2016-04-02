@@ -5,6 +5,56 @@
 #include "chapter_4.h"
 #include "utils.h"
 
+static void find_minmax(int *arr, size_t len, int *min, int *max) {
+    size_t i;
+    if (len < 1)
+        return;
+
+    if (len % 2 == 0) {
+        *max = (arr[0] > arr[1]) ? arr[0]: arr[1];
+        *min = (arr[0] > arr[1]) ? arr[1]: arr[0];
+        i = 2;
+    } else {
+        *max = arr[0];
+        *min = arr[0];
+        i = 1;
+    }
+
+    for (; i < len - 1; i += 2) {
+        if (arr[i] > arr[i + 1]) {
+            *max = (arr[i] > *max) ? arr[i]: *max;
+            *min = (arr[i + 1] < *min) ? arr[i + 1]: *min;
+        } else {
+            *max = (arr[i + 1] > *max) ? arr[i + 1]: *max;
+            *min = (arr[i] < *min) ? arr[i]: *min;
+        }
+    }
+}
+
+int *counting_sort(int *arr, size_t len) {
+    int min, max;
+    size_t range;
+
+    find_minmax(arr, len, &min, &max);
+    range = max - min + 1;
+
+    int *count = (int *) calloc(range, sizeof(int));
+    for (size_t i = 0; i < len; i++) {
+        count[arr[i] - min]++;
+    }
+    for (size_t i = 1; i < range; i++) {
+        count[i] += count[i -1];
+    }
+
+    int *res = (int *) malloc(len * sizeof(int));
+    for (int i = len - 1; i >= 0; i--) {
+        res[count[arr[i] - min]-- - 1] = arr[i];
+    }
+
+    free(count);
+    return res;
+}
+
 static size_t _quick_sort_partition(int *arr, size_t len) {
     int pivot = arr[len - 1];
     size_t low = 0;
