@@ -21,7 +21,7 @@ export CFLAGS
 export DEPS
 export LDLIBS
 
-.PHONY: all clean $(UNITY_DIR) $(CHAPTERS) $(CLEAN_CHAPTERS) chapter_2
+.PHONY: all clean $(UNITY_DIR) $(CHAPTERS) $(CLEAN_CHAPTERS) chapter_2 test
 
 all: unity utils $(CHAPTERS)
 
@@ -40,3 +40,9 @@ $(CLEAN_CHAPTERS):
 clean: $(CLEAN_CHAPTERS)
 	@$(MAKE) -C $(UNITY_DIR) -f $(UNITY_DIR).mk clean
 	@$(MAKE) -C $(UTILS_DIR) -f $(UTILS_DIR).mk clean
+
+test: $(CHAPTERS)
+	@for chapter in $(CHAPTERS); \
+	    do \
+	    $$chapter/test_$$chapter; \
+	    done
