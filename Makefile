@@ -4,7 +4,7 @@ INCLUDES = $(abspath unity) $(abspath utils)
 LDLIBS = -lbsd
 CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu11 -g
 
-CHAPTER_NUMBERS = 2 4
+CHAPTER_NUMBERS = 2 4 6 7 8
 CHAPTERS = $(addprefix chapter_, $(CHAPTER_NUMBERS))
 CLEAN_CHAPTERS = $(addprefix clean_, $(CHAPTERS))
 

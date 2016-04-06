@@ -9,12 +9,6 @@
 static int array[MAX_SUBARRAY_SIZE] = {
     13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
 
-static int unsorted_array[ARRAY_SIZE] = {9, 3, 0, 8, 9, -1, -4, 4, 10, 3};
-static int sorted_array[ARRAY_SIZE]   = {-4, -1, 0, 3, 3, 4, 8, 9, 9, 10};
-
-static float unsorted_float_array[ARRAY_SIZE] = {.78, .17, .39, .26, .72, .94, .21, .12, .23, .68};
-static float sorted_float_array[ARRAY_SIZE]   = {.12, .17, .21, .23, .26, .39, .68, .72, .78, .94};
-
 static int matrix_a[MATRIX_SIZE][MATRIX_SIZE] = {
     {4, 1, 9, 5},
     {6, 3, 9, 4},
@@ -50,23 +44,9 @@ static void test_matrix_naive() {
         TEST_ASSERT_EQUAL_INT_ARRAY(matrix_result[i], matrix_c[i], MATRIX_SIZE);
 }
 
-void test_bucket_sort() {
-    float *result = bucket_sort(unsorted_float_array, ARRAY_SIZE);
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(sorted_float_array, result, ARRAY_SIZE);
-    free(result);
-}
-
-MAKE_TEST_SORT_TYPE(heap);
-MAKE_TEST_SORT_TYPE(quick);
-MAKE_TEST_SORT_TYPE(counting);
-
 int main() {
     UNITY_BEGIN();
     RUN_TEST(test_max_subarray);
     RUN_TEST(test_matrix_naive);
-    RUN_TEST(test_heap_sort);
-    RUN_TEST(test_quick_sort);
-    RUN_TEST(test_counting_sort);
-    RUN_TEST(test_bucket_sort);
     return UNITY_END();
 }
