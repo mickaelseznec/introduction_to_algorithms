@@ -1,48 +1,18 @@
-CC = gcc
-CWARN = all extra error
-INCLUDES = $(abspath unity) $(abspath utils)
-LDLIBS = -lbsd
-CFLAGS =  $(addprefix -W, $(CWARN)) $(addprefix -I, $(INCLUDES)) -std=gnu11 -g
+include common.mk
 
-CHAPTER_NUMBERS = 2 4 6 7 8
-CHAPTERS = $(addprefix chapter_, $(CHAPTER_NUMBERS))
-CLEAN_CHAPTERS = $(addprefix clean_, $(CHAPTERS))
+CHAPTER_NUMBERS := 2 4 6 7 8
+CHAPTERS_DIR    := $(addprefix chapter_, $(CHAPTER_NUMBERS))
 
-UNITY_DIR = unity
-UNITY_OBJ = $(addprefix $(abspath unity)/, unity.o)
+.PHONY: all clean $(UNITY_DIR) $(CHAPTERS_DIR)
 
-UTILS_DIR = utils
-UTILS_OBJ = $(addprefix $(abspath utils)/, utils.o)
+all: $(CHAPTERS_DIR)
 
-DEPS = $(UNITY_OBJ) $(UTILS_OBJ)
+$(CHAPTERS_DIR):
+	@$(MAKE) -C $@
 
-export CC
-export CFLAGS
-export DEPS
-export LDLIBS
-
-.PHONY: all clean $(UNITY_DIR) $(CHAPTERS) $(CLEAN_CHAPTERS) chapter_2 test
-
-all: unity utils $(CHAPTERS)
-
-unity:
-	@$(MAKE) -C $(UNITY_DIR) -f $@.mk
-
-utils:
-	@$(MAKE) -C $(UTILS_DIR) -f $@.mk
-
-$(CHAPTERS):
-	@$(MAKE) -C $@ -f $@.mk
-
-$(CLEAN_CHAPTERS):
-	@$(MAKE) -C $(subst clean_,,$@) -f $(subst clean_,,$@).mk clean
-
-clean: $(CLEAN_CHAPTERS)
-	@$(MAKE) -C $(UNITY_DIR) -f $(UNITY_DIR).mk clean
-	@$(MAKE) -C $(UTILS_DIR) -f $(UTILS_DIR).mk clean
-
-test: $(CHAPTERS)
-	@for chapter in $(CHAPTERS); \
-	    do \
-	    $$chapter/test_$$chapter; \
+test clean:
+	@for chapter in $(CHAPTERS_DIR); \
+	    do                           \
+	    $(MAKE) -C $$chapter $@;     \
+	    echo;                        \
 	    done
