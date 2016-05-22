@@ -1,5 +1,4 @@
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#pragma once
 
 #include <stdlib.h>
 
@@ -24,5 +23,3 @@
 void print_array_int(int *arr, size_t len);
 void shuffle_array_int(int *arr, size_t len);
 void swap_int(int *arr, int n, int m);
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __CHAPTER_10_H__
-#define __CHAPTER_10_H__
+#pragma once
 
 #include <stdlib.h>
 
@@ -21,5 +20,3 @@ int hashmap_destroy(struct hashmap *hashmap);
 int hashmap_add(struct hashmap *hashmap, char *key, int value);
 int hashmap_get(struct hashmap *hashmap, char *key, int *ret);
 int hashmap_delete(struct hashmap *hashmap, char *key);
-
-#endif

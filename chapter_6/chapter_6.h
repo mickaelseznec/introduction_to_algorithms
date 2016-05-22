@@ -1,9 +1,6 @@
-#ifndef __CHAPTER_2_H__
-#define __CHAPTER_2_H__
+#pragma once
 
 #include <stdlib.h>
 
 int *heap_sort(int *arr, size_t len);
-
-#endif
 

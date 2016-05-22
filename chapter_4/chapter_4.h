@@ -1,5 +1,4 @@
-#ifndef __CHAPTER_2_H__
-#define __CHAPTER_2_H__
+#pragma once
 
 #include <stdlib.h>
 
@@ -14,5 +13,3 @@ void matrix_multiply_naive(size_t matrix_size,
         int matrix_c[matrix_size][matrix_size],
         int matrix_a[matrix_size][matrix_size],
         int matrix_b[matrix_size][matrix_size]);
-
-#endif
