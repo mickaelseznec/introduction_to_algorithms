@@ -3,6 +3,13 @@
 
 #include <stdlib.h>
 
+#define REQUIRE_NOT_NULL(arg, ret)                  \
+    do {                                            \
+        if ((arg) == NULL) {                        \
+            return (ret);                           \
+        }                                           \
+    } while(0)
+
 #define print_array(array, size) _Generic((array)[0], int: print_array_int)((array), (size))
 #define shuffle_array(array, size) _Generic((array)[0], int: shuffle_array_int)((array), (size))
 #define swap(array, n, m) _Generic((array)[0], int: swap_int)((array), (n), (m))
